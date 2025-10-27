@@ -29,19 +29,29 @@ To design and train a **deep learning model** capable of accurately classifying 
 - Data augmentation (rotation, flipping, contrast, zoom)
   
 ### 2. Model Architecture
-| Layer | Type | Output Shape | Parameters |
-|--------|------|---------------|-------------|
-| Input | 96x96x3 | - |
-| Conv2D | 32 filters, 3x3 kernel, ReLU | Feature Extraction |
-| MaxPooling2D | 2x2 | Downsampling |
-| Conv2D | 64 filters, 3x3 kernel, ReLU | Deep Features |
-| Attention Layer | Context-based weighting | Focus on key regions |
-| Flatten | - | - |
-| Dense | 128 units, ReLU | Fully Connected |
-| Dropout | 0.5 | Regularization |
-| Dense | 1 unit, Sigmoid | Output Probability |
+| Layer (Type) | Output Shape | Parameters | Description |
+|---------------|---------------|-------------|--------------|
+| Input (InputLayer) | (None, 96, 96, 3) | 0 | Input image patches |
+| Conv2D (conv2d_3) | (None, 96, 96, 64) | 1,792 | 64 filters, 3×3 kernel, ReLU activation |
+| MaxPooling2D (max_pooling2d_3) | (None, 48, 48, 64) | 0 | Downsampling layer |
+| Conv2D (conv2d_4) | (None, 48, 48, 128) | 73,856 | 128 filters, 3×3 kernel, ReLU activation |
+| MaxPooling2D (max_pooling2d_4) | (None, 24, 24, 128) | 0 | Downsampling layer |
+| Conv2D (conv2d_5) | (None, 24, 24, 256) | 295,168 | 256 filters, 3×3 kernel, ReLU activation |
+| MaxPooling2D (max_pooling2d_5) | (None, 12, 12, 256) | 0 | Downsampling layer |
+| Reshape (reshape_1) | (None, 144, 256) | 0 | Flatten spatial dimensions |
+| Attention Block (attention_block_1) | (None, 144, 128) | 115,200 | Context-based feature weighting |
+| GlobalAveragePooling1D | (None, 128) | 0 | Feature aggregation |
+| Dense (dense_10) | (None, 64) | 8,256 | Fully connected layer (ReLU) |
+| Dropout (dropout_1) | (None, 64) | 0 | Regularization |
+| Dense (dense_11) | (None, 1) | 65 | Sigmoid output for binary classification |
 
 ---
+
+**🧮 Total Parameters:** 494,337  
+**Trainable Parameters:** 494,337  
+**Non-trainable Parameters:** 0
+
+ ---
 
 ## 🧩 Mathematical Formulation
 
